@@ -82,6 +82,30 @@ class TauronEMeter:
         self.__raw_response = json.loads(r.text)
 
 
+    def get_month_data(self, meter_id: int, date: datetime):
+        """
+        Downloads meter data at given date
+
+        @param meter_id (int): tauron smart meter number
+        @param date (date_time): data date
+        """
+       
+        payload = {
+            "dane[chartMonth]": date.month,
+            "dane[chartYear]": date.year,
+            "dane[paramType]": "month",
+            "dane[smartNr]": meter_id,
+            "dane[checkOZE]": "on"
+        }
+
+        r = self.__session.post(
+            TauronEMeter.URL + '/index/charts',
+            data=payload,
+            headers=TauronEMeter.HEADERS)
+        self.__raw_response = json.loads(r.text)
+
+
+
     def to_flat_file(self, file_name: str, raw: bool = False, **kwargs):
         """
         Saves raw meter data

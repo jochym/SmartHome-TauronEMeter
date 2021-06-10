@@ -142,13 +142,16 @@ periods = args.periods
 
 # read config file
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(['config.ini','config-local.ini'])
  
 # TODO:
 # Change and unify somehow
-username = os.environ['USERNAME']
-password = os.environ['PASSWORD']
-meter_id = os.environ['METER_ID']
+#username = os.environ['USERNAME']
+#password = os.environ['PASSWORD']
+#meter_id = os.environ['METER_ID']
+username = config['ACCOUNT']['USERNAME']
+password = config['ACCOUNT']['PASSWORD']
+meter_id = config['ACCOUNT']['METER_ID']
 
 device_id = config['API']['device_id']
 sensor_id = config['API']['sensor_id']
@@ -175,7 +178,7 @@ for date in date_range:
     c = transform_data(raw_data[0], raw_data[1])
 
     print("Sending to collector API...")
-    load_data(c.converted_data)
+    #load_data(c.converted_data)
 
     print("Done")
     sleep(10)
